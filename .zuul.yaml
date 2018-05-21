@@ -6,6 +6,7 @@
     description: this is running the unit tests for this project
     run: playbooks/unittests.yaml
     post-run: playbooks/fetch-logs.yaml
+    voting: false
     nodeset:
       nodes:
 # pool's name, not nodes node, it's `nodes`
