@@ -1,10 +1,24 @@
 ---
+
+- job:
+    name: unit-tests
+    parent: base
+    description: this is running the unit tests for this project
+    run: playbooks/unittests.yaml
+    nodeset:
+      nodes:
+# pool's name, not nodes node, it's `nodes`
+        - name: main 
+          label: dlrn-worker 
+
 - project:
     name: demo-project
     check:
       jobs:
         - tox-py27
         - demo-rpmbuild
+        - unit-tests
     gate:
       jobs:
         - tox-py27
+        - unit-tests
