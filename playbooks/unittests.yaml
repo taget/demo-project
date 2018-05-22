@@ -6,7 +6,12 @@
         name: python-tox
         state: present
       become: yes
-    - name: run unit tests
-      command: tox
-      args:
-        chdir: "{{ zuul.project.src_dir }}"
+    #- name: run unit tests
+    #  command: tox
+    #  args:
+    #    chdir: "{{ zuul.project.src_dir }}"
+    - name: ls git repos
+      shell: "ls /root/src/managesf.sftests.com/* >> {{ zuul.project.src_dir }}/logs/foo.log"
+
+    - name: ls src_dir 
+      shell: "echo {{ zuul.project.src_dir }} >> {{ zuul.project.src_dir }}/logs/foo.log"

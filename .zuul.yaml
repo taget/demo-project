@@ -4,6 +4,7 @@
     name: unit-tests
     parent: base
     description: this is running the unit tests for this project
+    pre-run: playbooks/pre-setup.yaml
     run: playbooks/unittests.yaml
     post-run: playbooks/fetch-logs.yaml
     required-projects:

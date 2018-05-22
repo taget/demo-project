@@ -1,0 +1,17 @@
+---
+- hosts: all
+  tasks:
+    - name: Find locally cached git repos                                          
+      stat:                                                                        
+        path: "/opt/git/{{ item.name }}"                                           
+      with_items: "{{ zuul.projects.values() | list }}"                            
+      register: cached_repos 
+
+    - name: Clone upstream repo to workspace                                       
+      command: "git clone https://{{ item.0.canonical_hostname }}/{{ item.0.name}} {{ ansible_user_dir }}/{{ item.0.src_dir}}"
+      args:                                                                        
+        creates: "{{ ansible_user_dir }}/{{ item.0.src_dir}}"                      
+      when: not item.1.stat.exists                                                 
+      with_together:                                                               
+        - "{{ zuul.projects.values() | list }}"                                    
+        - "{{ cached_repos.results }}" 
